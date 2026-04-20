@@ -9,3 +9,13 @@ output "subnet_1_id" {
 output "subnet_2_id" {
     value =aws_subnet.ecs_project_subnet_2.id
 }
+
+output "alb_sg_id" {
+  description = "ALB SG ID"
+    value =aws_security_group.ecs-alb-sg.id
+}
+
+output "ecs_sg_id" {
+  description = "ECS SG ID"
+    value =aws_security_group.ecs-sg.id
+}
