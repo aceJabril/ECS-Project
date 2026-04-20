@@ -5,5 +5,5 @@ output "cluster_name" {
 
 output "service_name" {
     description = "Outputs ECS service name"
-    value = aws_ecs_service.ecs_project_service.name
+    value = aws_ecs_service.ecs_cluster_service.name
 }

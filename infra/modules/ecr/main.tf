@@ -1,5 +1,5 @@
 resource "aws_ecr_repository" "ecs_project_ecr" {
-    name = "ecs_project_ecr"
+    name = "ecs-project"
     image_tag_mutability = "IMMUTABLE"
 
     encryption_configuration {
