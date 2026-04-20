@@ -10,7 +10,7 @@ resource "aws_vpc" "ecs_project" {
 resource "aws_subnet" "ecs_project_subnet_1" {
   vpc_id                  = aws_vpc.ecs_project.id
   cidr_block              = var.subnet_cidr_block_1
-  availability_zone       = var.availability_zone_1
+  availability_zone       = var.az_1
   map_public_ip_on_launch = true
 
   tags = {
@@ -22,7 +22,7 @@ resource "aws_subnet" "ecs_project_subnet_1" {
 resource "aws_subnet" "ecs_project_subnet_2" {
   vpc_id                  = aws_vpc.ecs_project.id
   cidr_block              = var.subnet_cidr_block_2
-  availability_zone       = var.availability_zone_2
+  availability_zone       = var.az_2 
   map_public_ip_on_launch = true
 
   tags = {

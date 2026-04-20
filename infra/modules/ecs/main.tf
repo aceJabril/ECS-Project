@@ -30,16 +30,16 @@ resource "aws_ecs_service" "ecs_cluster_service" {
     task_definition = aws_ecs_task_definition.ecs_task_definition.arn
     desired_count = 1
     launch_type = "FARGATE"
+    
     network_configuration {
         subnets = [var.subnet_id_1, var.subnet_id_2]
         security_groups = [var.ecs_service_sg]  
         assign_public_ip = true
-}
+    }
 
-load_balancer {
+    load_balancer {
         target_group_arn = var.target_group_arn
         container_name = "ecs-project-container"
         container_port = 80
     }
-
 }

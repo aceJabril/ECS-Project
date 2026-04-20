@@ -4,23 +4,24 @@ variable "cidr_block" {
     default     = "10.0.0.0/16"
 }
 
-variable "availability_zone_1" {
-    description = "The availability zone for subnet 1."
+variable "az_1" {
+    description = "The availability zone for subnet 1"
     type        = string
     default     = "eu-west-2a"
 }
 
-variable "availability_zone_2" {
-    description = "The availability zone for subnet 2."
+variable "az_2" {
+    description = "The availability zone for subnet 2"
     type        = string
     default     = "eu-west-2b"
 }
 
 variable "subnet_cidr_block_1" {
-    description = "The CIDR blocks for the subnets."
+    description = "The CIDR blocks for the subnets"
     type        = string
     default     = "10.0.1.0/24"
 }
+
 
 variable "subnet_cidr_block_2" {
     description = "The CIDR blocks for the subnets."
