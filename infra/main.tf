@@ -21,6 +21,7 @@ module "alb" {
     subnet_id_1 = module.vpc.subnet_1_id
     subnet_id_2 = module.vpc.subnet_2_id
     ecs_alb_sg = module.vpc.alb_sg_id
+    certificate_arn = module.acm.certificate_arn
 }
 
 module "acm" {

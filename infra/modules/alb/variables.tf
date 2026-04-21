@@ -17,3 +17,8 @@ variable "ecs_alb_sg" {
     description = "The security group for the ALB"
     type        = string
 }
+
+variable "certificate_arn" {
+  description = "ACM certificate ARN"
+  type        = string
+}

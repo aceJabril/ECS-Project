@@ -47,4 +47,16 @@ resource "aws_lb_listener" "ecs-listener" {
             target_group_arn = aws_lb_target_group.ecs-tg.arn
         }
     }
+
+    resource "aws_lb_listener" "ecs-HTTPS-listener" {
+        load_balancer_arn = aws_lb.ecs-lb.arn
+        port = 443
+        protocol = "HTTPS"
+        certificate_arn = var.certificate_arn
+
+        default_action {
+            type = "forward"
+            target_group_arn = aws_lb_target_group.ecs-tg.arn
+        }
+    }
   
