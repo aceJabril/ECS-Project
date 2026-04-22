@@ -10,7 +10,7 @@ import (
 func main() {
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		fmt.Fprintln(w, `{"status":"ok"}`)
+		fmt.Fprintln(w, `{"status":"ok","version":"1.0"}`)
 	})
 
 	http.ListenAndServe(":80", nil)
