@@ -32,7 +32,7 @@ module "acm" {
 module "ecs" {
     source = "./modules/ecs"
     execution_role_arn = module.iam.arn_output
-    ecr_image_url = module.ecr.ecr_repo_url
+    ecr_image_url = "${module.ecr.ecr_repo_url}:latest"
     subnet_id_1 = module.vpc.subnet_1_id
     subnet_id_2 = module.vpc.subnet_2_id
     ecs_service_sg = module.vpc.ecs_sg_id
