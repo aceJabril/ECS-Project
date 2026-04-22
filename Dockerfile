@@ -22,8 +22,6 @@
 
 # ENTRYPOINT ["/server"]
 
-
-# stage 1: builder
 FROM golang:1.26.1-alpine AS builder
 
 WORKDIR /app
@@ -34,16 +32,17 @@ COPY go.mod ./
 RUN go build -o server ./app
 
 
-# stage 2: runtime (safe for ECS)
 FROM alpine:3.20
 
 WORKDIR /
 
 COPY --from=builder /app/server /server
 
-EXPOSE 80
+# 🔥 THIS IS THE FIX ECS NEEDS
+RUN echo "app:x:65534:65534:app:/:" > /etc/passwd
 
-# run as non-root safely
 USER 65534:65534
+
+EXPOSE 80
 
 ENTRYPOINT ["/server"]
