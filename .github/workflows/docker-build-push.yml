@@ -39,5 +39,5 @@ jobs:
 
       - name: Health check
         run: |
-          sleep 30
+          sleep 60
           curl --fail https://ecs.jabz.uk/health
