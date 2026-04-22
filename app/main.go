@@ -1,4 +1,4 @@
-// health check server.
+// health check server
 
 package main
 
