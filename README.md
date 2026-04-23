@@ -122,22 +122,22 @@ The project uses 4 GitHub Actions workflows:
 **1. Docker Build and Push**
 Triggers on push to main when app code changes. Builds the image, tags with commit SHA, runs Trivy security scan, pushes to ECR.
 
-![Docker Pipeline](assets/docker-pipeline.png)
+- [build and push pipeline](assets/build+push-pipeline-success.png)
 
 **2. Terraform Plan**
 Manual trigger. Runs terraform validate and plan to preview changes before applying.
 
-![Terraform Plan](assets/tf-plan-pipeline.png)
+- [terraform plan pipeline](plan-pipeline-success.png)
 
 **3. Terraform Deploy**
 Manual trigger. Applies all infrastructure changes.
 
-![Terraform Deploy](assets/tf-deploy-pipeline.png)
+- [terraform deploy pipeline](deploy-pipeline-success.png)
 
 **4. Terraform Destroy**
 Manual trigger only. Destroys all infrastructure safely.
 
-![Terraform Destroy](assets/tf-destroy-pipeline.png)
+- [terraform destroy pipeline](destroy-pipeline-success.png)
 
 Authentication to AWS is handled using GitHub OIDC, eliminating long-lived AWS credentials.
 
