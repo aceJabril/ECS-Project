@@ -1,4 +1,4 @@
-name: Terraform Destroy
+name: Terraform Plan
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ permissions:
   contents: read
 
 jobs:
-  destroy:
+  plan:
     runs-on: ubuntu-latest
     env:
       TF_VAR_cidr_block: ${{ secrets.TF_VAR_cidr_block }}
@@ -37,5 +37,8 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
-      - name: Terraform Destroy
-        run: terraform destroy -auto-approve
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan

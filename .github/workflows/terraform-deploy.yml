@@ -2,10 +2,6 @@ name: Terraform Deploy
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - 'infra/**'
 
 permissions:
   id-token: write
@@ -21,6 +17,8 @@ jobs:
       TF_VAR_az_1: ${{ secrets.TF_VAR_az_1 }}
       TF_VAR_az_2: ${{ secrets.TF_VAR_az_2 }}
       TF_VAR_domain: ${{ secrets.TF_VAR_domain }}
+      TF_VAR_private_subnet_cidr_block_1: ${{ secrets.TF_VAR_private_subnet_cidr_block_1 }}
+      TF_VAR_private_subnet_cidr_block_2: ${{ secrets.TF_VAR_private_subnet_cidr_block_2 }}
     defaults:
       run:
         working-directory: infra
