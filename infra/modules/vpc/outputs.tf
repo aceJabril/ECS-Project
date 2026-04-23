@@ -19,3 +19,11 @@ output "ecs_sg_id" {
   description = "ECS SG ID"
     value =aws_security_group.ecs-sg.id
 }
+
+output "private_subnet_1_id" {
+  value = aws_subnet.ecs_project_private_subnet_1.id
+}
+
+output "private_subnet_2_id" {
+  value = aws_subnet.ecs_project_private_subnet_2.id
+}

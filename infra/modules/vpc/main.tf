@@ -116,3 +116,65 @@ tags = {
     Name = "ecs-sg"
   }
   }
+
+  resource "aws_subnet" "ecs_project_private_subnet_1" {
+  vpc_id            = aws_vpc.ecs_project.id
+  cidr_block        = var.private_subnet_cidr_block_1
+  availability_zone = var.az_1
+
+  tags = {
+    Name = "ecs_project_private_subnet_1"
+  }
+}
+
+resource "aws_subnet" "ecs_project_private_subnet_2" {
+  vpc_id            = aws_vpc.ecs_project.id
+  cidr_block        = var.private_subnet_cidr_block_2
+  availability_zone = var.az_2
+
+  tags = {
+    Name = "ecs_project_private_subnet_2"
+  }
+}
+
+resource "aws_eip" "nat_eip" {
+  domain = "vpc"
+
+  tags = {
+    Name = "ecs_project_nat_eip"
+  }
+}
+
+resource "aws_nat_gateway" "ecs_project_nat" {
+  allocation_id = aws_eip.nat_eip.id
+  subnet_id     = aws_subnet.ecs_project_subnet_1.id
+
+  tags = {
+    Name = "ecs_project_nat"
+  }
+}
+
+resource "aws_route_table" "ecs_project_private_rt" {
+  vpc_id = aws_vpc.ecs_project.id
+
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.ecs_project_nat.id
+  }
+
+  tags = {
+    Name = "ecs_project_private_rt"
+  }
+}
+
+resource "aws_route_table_association" "private_subnet_1" {
+  subnet_id      = aws_subnet.ecs_project_private_subnet_1.id
+  route_table_id = aws_route_table.ecs_project_private_rt.id
+}
+
+resource "aws_route_table_association" "private_subnet_2" {
+  subnet_id      = aws_subnet.ecs_project_private_subnet_2.id
+  route_table_id = aws_route_table.ecs_project_private_rt.id
+}
+
+  

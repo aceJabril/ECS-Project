@@ -27,3 +27,14 @@ variable "domain" {
     description = "The domain name for the ACM certificate"
     type        = string
 }
+
+variable "private_subnet_cidr_block_1" {
+  description = "CIDR block for private subnet 1"
+  type        = string
+}
+
+variable "private_subnet_cidr_block_2" {
+  description = "CIDR block for private subnet 2"
+  type        = string
+}
+
