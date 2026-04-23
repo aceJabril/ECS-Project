@@ -34,9 +34,9 @@ The architecture is designed for security and high availability:
 
 ## Deployment Verification
 
-![Live Domain](assets/live-domain-https.png)
-![Healthy Target Group](assets/healthy-target-group.png)
-![ECS Task Running](assets/ecs-running.png)
+- [Live Domain](assets/live-domain-https.png)
+- [Healthy Target Group](assets/healthy-target-group.png)
+- [ECS Task Running](assets/ecs-running.png)
 
 ---
 
