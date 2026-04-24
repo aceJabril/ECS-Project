@@ -18,6 +18,7 @@ variable "ecs_alb_sg" {
     type        = string
 }
 
+
 variable "certificate_arn" {
   description = "ACM certificate ARN"
   type        = string

@@ -10,25 +10,25 @@ module "vpc" {
 }
 
 module "iam" {
-    source = "./modules/iam"
+  source = "./modules/iam"
 }
 
 module "ecr" {
-    source = "./modules/ecr"
-}
-
-module "alb" {
-    source = "./modules/alb"
-    vpc_id = module.vpc.vpc_id
-    subnet_id_1 = module.vpc.subnet_1_id
-    subnet_id_2 = module.vpc.subnet_2_id
-    ecs_alb_sg = module.vpc.alb_sg_id
-    certificate_arn = module.acm.certificate_arn
+  source = "./modules/ecr"
 }
 
 module "acm" {
-    source = "./modules/acm"
-    domain = var.domain
+  source = "./modules/acm"
+  domain = var.domain
+}
+
+module "alb" {
+  source          = "./modules/alb"
+  vpc_id          = module.vpc.vpc_id
+  subnet_id_1     = module.vpc.subnet_1_id
+  subnet_id_2     = module.vpc.subnet_2_id
+  ecs_alb_sg      = module.vpc.alb_sg_id
+  certificate_arn = module.acm.certificate_arn
 }
 
 module "ecs" {
