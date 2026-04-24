@@ -18,7 +18,8 @@ https://github.com/user-attachments/assets/cb0cf9c0-44cb-482d-a581-23ddc3b4bf29
 
 ## Architecture Overview
 
-![Architecture Diagram](assets/ecs-architecture.png)
+<img width="1182" height="651" alt="ecs-architecture" src="https://github.com/user-attachments/assets/1ab2b84a-6517-4e81-97e4-c68ed768f385" />
+
 
 The architecture is designed for security and high availability:
 
