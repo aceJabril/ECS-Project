@@ -30,14 +30,55 @@ jobs:
 
       - name: Build and push
         env:
-         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-         IMAGE_TAG: ${{ github.sha }}
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
         run: |
-         docker build -t $ECR_REGISTRY/ecs-project:$IMAGE_TAG -t $ECR_REGISTRY/ecs-project:latest .
-         docker push $ECR_REGISTRY/ecs-project:$IMAGE_TAG
-         docker push $ECR_REGISTRY/ecs-project:latest
+          docker build -t $ECR_REGISTRY/ecs-project:$IMAGE_TAG -t $ECR_REGISTRY/ecs-project:latest .
+          docker push $ECR_REGISTRY/ecs-project:$IMAGE_TAG
+          docker push $ECR_REGISTRY/ecs-project:latest
+
+      - name: Run Trivy scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ steps.login-ecr.outputs.registry }}/ecs-project:${{ github.sha }}
+          format: table
+          exit-code: 0
+
+      - name: Update ECS task definition and deploy
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          TASK_DEF=$(aws ecs describe-task-definition \
+            --task-definition ecs-project-task \
+            --query taskDefinition \
+            --output json)
+
+          NEW_IMAGE="$ECR_REGISTRY/ecs-project:$IMAGE_TAG"
+
+          NEW_TASK_DEF=$(echo $TASK_DEF | jq \
+            --arg IMAGE "$NEW_IMAGE" \
+            '.containerDefinitions[0].image = $IMAGE | 
+            del(.taskDefinitionArn, .revision, .status, .requiresAttributes, 
+                .placementConstraints, .compatibilities, .registeredAt, .registeredBy)')
+
+          NEW_REVISION=$(aws ecs register-task-definition \
+            --cli-input-json "$NEW_TASK_DEF" \
+            --query taskDefinition.taskDefinitionArn \
+            --output text)
+
+          aws ecs update-service \
+            --cluster ecs-project-cluster \
+            --service ecs_project_service \
+            --task-definition $NEW_REVISION \
+            --force-new-deployment
+
+      - name: Wait for deployment to stabilise
+        run: |
+          aws ecs wait services-stable \
+            --cluster ecs-project-cluster \
+            --services ecs_project_service
 
       - name: Health check
         run: |
-          sleep 60
           curl --fail https://ecs.jabz.uk/health
