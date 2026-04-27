@@ -27,3 +27,15 @@ variable "target_group_arn" {
   description = "The ARN of the target group for the load balancer"
   type        = string
 }
+
+variable "cpu" {
+  description = "CPU units for the ECS task"
+  type        = string
+  default     = "256"
+}
+
+variable "memory" {
+  description = "Memory for the ECS task in MB"
+  type        = string
+  default     = "512"
+}

@@ -40,4 +40,6 @@ module "ecs" {
   ecs_service_sg     = module.vpc.ecs_sg_id
   target_group_arn   = module.alb.target_group_arn
   depends_on         = [module.alb, module.vpc]
+  cpu                = "256"
+  memory             = "512"
 }
