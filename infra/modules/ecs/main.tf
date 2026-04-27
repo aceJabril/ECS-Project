@@ -20,6 +20,14 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
           protocol      = "tcp"
         }
       ]
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = "/ecs/ecs-project"
+          awslogs-region        = "eu-west-2"
+          awslogs-stream-prefix = "ecs"
+        }
+      }
     }
   ])
 }
@@ -41,5 +49,14 @@ resource "aws_ecs_service" "ecs_cluster_service" {
     target_group_arn = var.target_group_arn
     container_name   = "ecs-project-container"
     container_port   = 80
+  }
+}
+
+resource "aws_cloudwatch_log_group" "ecs_logs" {
+  name              = "/ecs/ecs-project"
+  retention_in_days = 7
+
+  tags = {
+    Name = "ecs-project-logs"
   }
 }
