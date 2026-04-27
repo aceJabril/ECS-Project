@@ -40,5 +40,11 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
 
+      - name: Run tfsec
+        uses: aquasecurity/tfsec-action@v1.0.3
+        with:
+          working_directory: infra
+          soft_fail: true
+
       - name: Terraform Plan
         run: terraform plan
