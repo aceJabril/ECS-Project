@@ -1,5 +1,9 @@
 resource "aws_ecs_cluster" "ecs_project_cluster" {
   name = "ecs-project-cluster"
+
+  tags = {
+    Name = "ecs-project-cluster"
+  }
 }
 
 resource "aws_ecs_task_definition" "ecs_task_definition" {
