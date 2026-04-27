@@ -32,6 +32,9 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
           awslogs-stream-prefix = "ecs"
         }
       }
+      tags = {
+        Name = "ecs-project-container"
+      }
     }
   ])
 }
@@ -54,6 +57,11 @@ resource "aws_ecs_service" "ecs_cluster_service" {
     container_name   = "ecs-project-container"
     container_port   = 80
   }
+
+tags = {
+    Name = "ecs_project_service"
+  }
+
 }
 
 resource "aws_cloudwatch_log_group" "ecs_logs" {

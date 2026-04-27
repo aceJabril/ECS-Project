@@ -50,6 +50,9 @@ resource "aws_lb_listener" "ecs-listener" {
       status_code = "HTTP_301"
     }
   }
+  tags = {
+    Environment = "production"
+  }
 }
 
 resource "aws_lb_listener" "ecs-HTTPS-listener" {
@@ -61,6 +64,9 @@ resource "aws_lb_listener" "ecs-HTTPS-listener" {
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.ecs-tg.arn
+  }
+  tags = {
+    Environment = "production"
   }
 }
 
