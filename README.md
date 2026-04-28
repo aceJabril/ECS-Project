@@ -8,21 +8,13 @@ The setup follows real DevOps practices: modular infrastructure as code, private
 
 ## Live Deployment
 
-
-
 https://github.com/user-attachments/assets/cb0cf9c0-44cb-482d-a581-23ddc3b4bf29
-
-
 
 ---
 
 ## Architecture Overview
 
 <img width="1284" height="628" alt="ecs-project-architecure" src="https://github.com/user-attachments/assets/2fb5a5a8-69fe-4852-9180-fdfd152cdbe5" />
-
-
-
-
 
 The architecture is designed for security and high availability:
 
@@ -41,6 +33,8 @@ The architecture is designed for security and high availability:
 - [Live Domain](assets/live-domain-https.png)
 - [Healthy Target Group](assets/healthy-target-group.png)
 - [ECS Task Running](assets/ecs-running.png)
+- [CloudWatch Logs](assets/cloudwatch-logs.png)
+
 
 ---
 
@@ -57,6 +51,9 @@ ecs-project
 │   ├── alb-health-check.png
 │   └── live-domain-https.png
 ├── go.mod
+├── bootstrap/
+│   └── main.tf
+|   └── variables.tf
 └── infra
     ├── backend.tf
     ├── main.tf
@@ -112,6 +109,11 @@ ecs-project
 - ACM-managed TLS certificate
 - DNS validation handled via Cloudflare
 
+**Logging and Observability**
+- CloudWatch Log Group for ECS task logging
+- Logs streamed automatically from container stdout
+- Retention set to 7 days
+
 **State Management**
 - Remote Terraform state stored in Amazon S3
 - Native state locking enabled
@@ -124,24 +126,24 @@ ecs-project
 The project uses 4 GitHub Actions workflows:
 
 **1. Docker Build and Push**
-Triggers on push to main when app code changes. Builds the image, tags with commit SHA, runs Trivy security scan, pushes to ECR.
+Triggers on push to main when app code changes. Builds the image, tags with commit SHA, runs Trivy security scan, pushes to ECR, and automatically updates the ECS service with the new image.
 
 - [build and push pipeline](assets/build+push-pipeline-success.png)
 
 **2. Terraform Plan**
 Manual trigger. Runs terraform validate and plan to preview changes before applying.
 
-- [terraform plan pipeline](plan-pipeline-success.png)
+- [terraform plan pipeline](assets/plan-pipeline-success.png)
 
 **3. Terraform Deploy**
 Manual trigger. Applies all infrastructure changes.
 
-- [terraform deploy pipeline](deploy-pipeline-success.png)
+- [terraform deploy pipeline](assets/deploy-pipeline-success.png)
 
 **4. Terraform Destroy**
 Manual trigger only. Destroys all infrastructure safely.
 
-- [terraform destroy pipeline](destroy-pipeline-success.png)
+- [terraform destroy pipeline](assets/destroy-pipeline-success.png)
 
 Authentication to AWS is handled using GitHub OIDC, eliminating long-lived AWS credentials.
 
@@ -152,7 +154,7 @@ Authentication to AWS is handled using GitHub OIDC, eliminating long-lived AWS c
 **Prerequisites:** Go 1.26+, Docker
 
 ```bash
-git clone https://github.com/aceJabril/ECS-Project
+git clone https://github.com/Jabril3a/ECS-Project
 cd ECS-Project
 
 # Run with Go
@@ -181,7 +183,7 @@ curl http://localhost:80/health
 ## Tech Stack
 
 **Infrastructure and Cloud**
-- AWS: VPC, ECS Fargate, ECR, ALB, ACM, S3
+- AWS: VPC, ECS Fargate, ECR, ALB, ACM, S3, CloudWatch
 - Cloudflare: DNS and ACM validation
 - Terraform: Modular infrastructure as code
 
@@ -199,7 +201,7 @@ curl http://localhost:80/health
 ## Reproducing This Setup
 
 1. Clone the repo
-2. Create an S3 bucket for Terraform state and update `backend.tf`
+2. Run `cd bootstrap && terraform init && terraform apply` to create the S3 state bucket
 3. Set up OIDC between GitHub and AWS
 4. Create an IAM role scoped to your repo
 5. Add GitHub secrets — `AWS_ROLE_ARN` and all `TF_VAR_*` values
