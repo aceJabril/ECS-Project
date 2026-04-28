@@ -18,7 +18,8 @@ https://github.com/user-attachments/assets/cb0cf9c0-44cb-482d-a581-23ddc3b4bf29
 
 ## Architecture Overview
 
-<img width="1160" height="627" alt="ecs-project-architecture" src="https://github.com/user-attachments/assets/aeb20220-0215-4aef-92fe-f8ed667dffb9" />
+<img width="1284" height="628" alt="ecs-project-architecure" src="https://github.com/user-attachments/assets/2fb5a5a8-69fe-4852-9180-fdfd152cdbe5" />
+
 
 
 
